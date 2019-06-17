@@ -1,4 +1,4 @@
-=== Prestashop CoinCorner Plugin ===
+?=== Prestashop CoinCorner Plugin ===
 Contributors: CoinCorner
 Donate link: https://www.coincorner.com
 Tags: Bitcoin, Payment, Payment Gateway, Accept Bitcoin.

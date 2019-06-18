@@ -122,6 +122,9 @@ class Coincorner extends PaymentModule
         Configuration::updateValue('COINCORNER_EXPIRED', $order_expired->id);
         Configuration::updateValue('COINCORNER_PENDINGREFUND', $order_pendingrefund->id);
         Configuration::updateValue('COINCORNER_REFUNDED', $order_Refunded->id);
+        Configuration::updateValue('COINCORNER_INVOICE_CURRENCY_DEFAULT', 'GBP');
+        Configuration::updateValue('COINCORNER_SETTLE_CURRENCY_DEFAULT', 'GBP');
+ 
 
         if (!parent::install()
         || !$this->registerHook('payment')
@@ -147,6 +150,10 @@ class Coincorner extends PaymentModule
             Configuration::deleteByName('COINCORNER_API_KEY') &&
             Configuration::deleteByName('COINCORNER_API_SECRET') &&
             Configuration::deleteByName('COINCORNER_USER_ID') &&
+            Configuration::deleteByName('COINCORNER_INVOICE_CURRENCY') &&
+            Configuration::deleteByName('COINCORNER_SETTLE_CURRENCY') &&
+            Configuration::deleteByName('COINCORNER_INVOICE_CURRENCY_DEFAULT') &&
+            Configuration::deleteByName('COINCORNER_SETTLE_CURRENCY_DEFAULT') &&
             parent::uninstall()
         );
     }
@@ -158,6 +165,8 @@ class Coincorner extends PaymentModule
             Configuration::updateValue('COINCORNER_API_KEY', Tools::getValue('COINCORNER_API_KEY'));
             Configuration::updateValue('COINCORNER_API_SECRET', Tools::getValue('COINCORNER_API_SECRET'));
             Configuration::updateValue('COINCORNER_USER_ID', Tools::getValue('COINCORNER_USER_ID'));
+            Configuration::updateValue('COINCORNER_INVOICE_CURRENCY_DEFAULT', Tools::getValue('COINCORNER_INVOICE_CURRENCY'));
+            Configuration::updateValue('COINCORNER_SETTLE_CURRENCY_DEFAULT', Tools::getValue('COINCORNER_SETTLE_CURRENCY'));
         }
         $this->html .= $this->displayConfirmation($this->l('Settings updated'));
     }
@@ -188,6 +197,8 @@ class Coincorner extends PaymentModule
             Configuration::updateValue('COINCORNER_API_KEY', $API_Key);
             Configuration::updateValue('COINCORNER_API_SECRET', $API_Secret);
             Configuration::updateValue('COINCORNER_USER_ID', $UserId);
+            Configuration::updateValue('COINCORNER_INVOICE_CURRENCY_DEFAULT', Tools::getValue('COINCORNER_INVOICE_CURRENCY'));
+            Configuration::updateValue('COINCORNER_SETTLE_CURRENCY_DEFAULT', Tools::getValue('COINCORNER_SETTLE_CURRENCY'));
         }
 
         $renderForm = $this->renderForm();
@@ -230,6 +241,20 @@ class Coincorner extends PaymentModule
                         'name' => 'COINCORNER_USER_ID',
                         'size' => 20,
                         'required' => true
+                    ],
+                    [
+                        'type' => 'text',
+                        'label' => $this->l('Invoice Currency'),
+                        'name' => 'COINCORNER_INVOICE_CURRENCY',
+                        'size' => 20,
+                        'required' => true
+                    ],
+                    [
+                        'type' => 'text',
+                        'label' => $this->l('Settle Currency'),
+                        'name' => 'COINCORNER_SETTLE_CURRENCY',
+                        'size' => 20,
+                        'required' => true
                     ]
                 ],
             
@@ -265,7 +290,9 @@ class Coincorner extends PaymentModule
             ]
         ];
 
-
+    
+        $helper->fields_value['COINCORNER_INVOICE_CURRENCY'] = Configuration::get('COINCORNER_INVOICE_CURRENCY_DEFAULT');
+        $helper->fields_value['COINCORNER_SETTLE_CURRENCY'] = Configuration::get('COINCORNER_SETTLE_CURRENCY_DEFAULT');
         $helper->fields_value['COINCORNER_API_KEY'] = Configuration::get('COINCORNER_API_KEY');
         $helper->fields_value['COINCORNER_API_SECRET'] = Configuration::get('COINCORNER_API_SECRET');
         $helper->fields_value['COINCORNER_USER_ID'] = Configuration::get('COINCORNER_USER_ID');

@@ -58,7 +58,9 @@ class CoincornerRedirectModuleFrontController extends ModuleFrontController
         $APIKey = Configuration::get('COINCORNER_API_KEY');
         $APISecret = Configuration::get('COINCORNER_API_SECRET');
         $UserId = Configuration::get('COINCORNER_USER_ID');
-        
+        $SettleCurrency = Configuration::get('COINCORNER_SETTLE_CURRENCY_DEFAULT');
+        $InvoiceCurrency = Configuration::get('COINCORNER_INVOICE_CURRENCY_DEFAULT');
+
         $url = 'https://checkout.coincorner.com/api/CreateOrder';
         $nonce = (int)(microtime(true) * 1e6);
         $sig = hash_hmac('sha256', $nonce . $UserId . $APIKey, $APISecret);
@@ -66,8 +68,9 @@ class CoincornerRedirectModuleFrontController extends ModuleFrontController
         
         $order = array(
             'OrderId'    => $cart->id,
-            'Amount'     => $total,
-            'Currency'   => $currency->iso_code,
+            'InvoiceAmount'     => $total,
+            'SettleCurrency'    => $SettleCurrency,
+            'InvoiceCurrency'   => $InvoiceCurrency,
             'FailRedirectURL'  => $this->context->link->getModuleLink('coincorner', 'cancel'),
             'NotificationURL'  => $this->context->link->getModuleLink('coincorner', 'callback'),
             'SuccessRedirectURL'      => $success_url,

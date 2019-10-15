@@ -75,53 +75,65 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       
             $response  = json_decode(curl_exec($curl), true);
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-            switch ($response["OrderStatus"]) {
-                case 0:
-                    $cc_order_status = 'COINCORNER_PENDING';
-                    break;
-                case 1:
-                    $cc_order_status = 'COINCORNER_PENDINGCONFIRMATION';
-                    break;
-                case 2:
-                    $cc_order_status = 'COINCORNER_COMPLETE';
-                    break;
-                case -1:
-                    $cc_order_status = 'COINCORNER_CANCELLED';
-                    break;
-                case -2:
-                    $cc_order_status = 'COINCORNER_EXPIRED';
-                    break;
-                case -3:
-                    $cc_order_status = 'COINCORNER_EXPIRED';
-                    break;
-                case -4:
-                    $cc_order_status = 'COINCORNER_PENDINGREFUND';
-                    break;
-                case -5:
-                    $cc_order_status = 'COINCORNER_REFUNDED';
-                    break;
-                default:
-                        $cc_order_status = false;
+            if($http_status != 200) {
+                http_response_code(400);
             }
-        
-            if ($cc_order_status !== false) {
-                  $history = new OrderHistory();
-                  $history->id_order = $order->id;
-                  $history->changeIdOrderState((int)Configuration::get($cc_order_status), $order->id);
-                  $history->addWithemail(true, array(
-                  'order_name' => Tools::getValue('order_id'),
-                  ));
+            else {
+                switch ($response["OrderStatus"]) {
+                    case 0:
+                        $cc_order_status = 'COINCORNER_PENDING';
+                        break;
+                    case 1:
+                        $cc_order_status = 'COINCORNER_PENDINGCONFIRMATION';
+                        break;
+                    case 2:
+                        $cc_order_status = 'COINCORNER_COMPLETE';
+                        break;
+                    case -1:
+                        $cc_order_status = 'COINCORNER_CANCELLED';
+                        break;
+                    case -2:
+                        $cc_order_status = 'COINCORNER_EXPIRED';
+                        break;
+                    case -3:
+                        $cc_order_status = 'COINCORNER_EXPIRED';
+                        break;
+                    case -4:
+                        $cc_order_status = 'COINCORNER_PENDINGREFUND';
+                        break;
+                    case -5:
+                        $cc_order_status = 'COINCORNER_REFUNDED';
+                        break;
+                    default:
+                            $cc_order_status = false;
+                }
+            
+                if ($cc_order_status !== false) {
+                      $history = new OrderHistory();
+                      $history->id_order = $order->id;
+                      $history->changeIdOrderState((int)Configuration::get($cc_order_status), $order->id);
+                      $history->addWithemail(true, array(
+                      'order_name' => Tools::getValue('order_id'),
+                      ));
+    
+                      $this->context->smarty->assign(array(
+                      'text' => 'OK'
+                      ));
+                }
 
-                  $this->context->smarty->assign(array(
-                  'text' => 'OK'
-                  ));
+
+                
             }
+
             if (_PS_VERSION_ >= '1.7') {
                 $this->setTemplate('module:coincorner/views/templates/front/payment_callback.tpl');
             } else {
                 $this->setTemplate('payment_callback.tpl');
             }
+
+            
         }
     }
 }

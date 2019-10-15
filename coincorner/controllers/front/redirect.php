@@ -93,23 +93,31 @@ class CoincornerRedirectModuleFrontController extends ModuleFrontController
       
         curl_setopt_array($curl, $curl_options);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        //curl_setopt($curl, CURLOPT_USERAGENT, $user_agent);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
    
         $response = json_decode(curl_exec($curl), true);
+        $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        if($http_status != 200) {
+
+            
+        }
+        else {
+            $this->module->validateOrder(
+                $cart->id,
+                Configuration::get('COINCORNER_PENDING'),
+                $total,
+                'coincorner',
+                null,
+                null,
+                (int)$currency->id,
+                false,
+                $customer->secure_key
+            );
+            
+            Tools::redirect($response);
+        }
  
-        $this->module->validateOrder(
-            $cart->id,
-            Configuration::get('COINCORNER_PENDING'),
-            $total,
-            'coincorner',
-            null,
-            null,
-            (int)$currency->id,
-            false,
-            $customer->secure_key
-        );
         
-        Tools::redirect($response);
     }
 }

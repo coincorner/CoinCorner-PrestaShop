@@ -42,6 +42,7 @@ class CoincornerRedirectModuleFrontController extends ModuleFrontController
         $currency = Context::getContext()->currency;
 
         $description = array();
+
         foreach ($cart->getProducts() as $product) {
             $description[] = $product['cart_quantity'] . ' × ' . $product['name'];
         }
@@ -99,8 +100,7 @@ class CoincornerRedirectModuleFrontController extends ModuleFrontController
         $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if($http_status != 200) {
-
-            
+            Tools::redirect('index.php?controller=order&step=3');
         }
         else {
             $this->module->validateOrder(

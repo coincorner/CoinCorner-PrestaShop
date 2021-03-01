@@ -34,13 +34,9 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
 
     public function postProcess()
     {
-        $raw_post = Tools::file_get_contents('php://input');
-        //file_get_contents('php://input');
-        $decoded  = json_decode($raw_post, true);
-        $order_id = $decoded['OrderId'];
-        $API_Key_Request = $decoded['APIKey'];
+        $order_id = Tools::getValue('OrderId');
+        $API_Key_Request = Tools::getValue('APIKey');
         $order = new Order($order_id);
-
         $APIKey = Configuration::get('COINCORNER_API_KEY');
         $APISecret = Configuration::get('COINCORNER_API_SECRET');
         $UserId = Configuration::get('COINCORNER_USER_ID');
@@ -56,7 +52,7 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
         $params['Nonce'] = $nonce;
         $params['Signature'] = $sig;
         $params['OrderId'] = $order_id;
-    
+ 
         if ($API_Key_Request == $APIKey) {
             $curl = curl_init();
 
@@ -71,7 +67,6 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
 
             curl_setopt_array($curl, $curl_options);
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-            //curl_setopt($curl, CURLOPT_USERAGENT, $user_agent);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       
             $response  = json_decode(curl_exec($curl), true);
@@ -122,9 +117,6 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
                       'text' => 'OK'
                       ));
                 }
-
-
-                
             }
 
             if (_PS_VERSION_ >= '1.7') {
@@ -132,7 +124,6 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
             } else {
                 $this->setTemplate('payment_callback.tpl');
             }
-
             
         }
     }

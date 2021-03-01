@@ -41,7 +41,7 @@
     </h2><br/>
 	  <strong>{l s='Who are CoinCorner?' mod='coincorner'}</strong> <br/>
 	  <p>
-      {l s='We are an Isle Of Man based cryptocurrency exchange that has been operating since 2014. We offer a platform for regular businesses to start accepting Bitcoin as a form 
+      {l s='We are an Isle of Man based cryptocurrency exchange that has been operating since 2014. We offer a platform for regular businesses to start accepting Bitcoin as a form 
 			of payment. ' mod='coincorner'}
     </p><br/>
 	  <strong>{l s='Getting started' mod='coincorner'}</strong><br/>
@@ -52,16 +52,16 @@
           {l s='and register for an account' mod='coincorner'}
          </li>
 	  		<li>{l s='Install the CoinCorner module through the PrestaShop Module Manager' mod='coincorner'}</li>
-	  		<li>{l s='Get your API credentials and UserId and paste them into the requried input fields on the configuration page for the CoinCorner module' mod='coincorner'}</li>
+	  		<li>{l s='Get your API credentials and UserId and paste them into the required input fields on the configuration page for the CoinCorner module' mod='coincorner'}</li>
 	  		<li>{l s='Read our ' mod='coincorner'}
-          <a href="https://www.coincorner/pluginintegration" target="_blank">
+          <a href="https://www.coincorner.com/pluginintegration" target="_blank">
             {l s='detailed guide' mod='coincorner'}
           </a> {l s='for assistance' mod='coincorner'}</li>
 	  	</ul>
 	  </p>
 	  
 	  <p class="sign-up"><br/>
-	  	<a href="https://coincorner/merchantregister" class="sign-up-button">{l s='Sign up on CoinCorner' mod='coincorner'}</a>
+	  	<a href="https://coincorner.com/merchantregister" class="sign-up-button">{l s='Sign up on CoinCorner' mod='coincorner'}</a>
 	  </p><br/>
 	  <strong>{l s='Features' mod='coincorner'}</strong>
 	  <p>

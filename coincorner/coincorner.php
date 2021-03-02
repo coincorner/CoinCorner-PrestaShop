@@ -38,7 +38,7 @@ class Coincorner extends PaymentModule
     {
         $this->name = 'coincorner';
         $this->tab = 'payments_gateways';
-        $this->version = '1.2';
+        $this->version = '1.2.1';
         $this->author = 'CoinCorner';
         $this->controllers = 'callback, cancel, payment, redirect';
         $this->is_eu_compatible = 1;

@@ -66,7 +66,6 @@ class CoincornerRedirectModuleFrontController extends ModuleFrontController
         $nonce = (int)(microtime(true) * 1e6);
         $sig = hash_hmac('sha256', $nonce . $UserId . $APIKey, $APISecret);
         $headers   = array();
-        
         $order = array(
             'OrderId'    => $cart->id,
             'InvoiceAmount'     => $total,

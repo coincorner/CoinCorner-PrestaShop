@@ -34,8 +34,9 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
 
     public function postProcess()
     {
-        $order_id = Tools::getValue('OrderId');
-        $API_Key_Request = Tools::getValue('APIKey');
+        $response = json_decode(Tools::file_get_contents('php://input'));
+        $order_id = $response->OrderId;
+        $API_Key_Request = $response->APIKey;
         $order = new Order($order_id);
         $APIKey = Configuration::get('COINCORNER_API_KEY');
         $APISecret = Configuration::get('COINCORNER_API_SECRET');
@@ -52,7 +53,7 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
         $params['Nonce'] = $nonce;
         $params['Signature'] = $sig;
         $params['OrderId'] = $order_id;
- 
+
         if ($API_Key_Request == $APIKey) {
             $curl = curl_init();
 
@@ -70,8 +71,8 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
       
             $response  = json_decode(curl_exec($curl), true);
-            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
+            $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if($http_status != 200) {
                 http_response_code(400);
             }

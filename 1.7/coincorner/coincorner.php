@@ -38,7 +38,7 @@ class Coincorner extends PaymentModule
     {
         $this->name = 'coincorner';
         $this->tab = 'payments_gateways';
-        $this->version = '1.2.1';
+        $this->version = '1.3';
         $this->author = 'CoinCorner';
         $this->controllers = 'callback, cancel, payment, redirect';
         $this->is_eu_compatible = 1;
@@ -135,7 +135,6 @@ class Coincorner extends PaymentModule
     public function uninstall()
     {
         return (
-            Configuration::deleteByName('MYMODULE_NAME') &&
             Configuration::deleteByName('COINCORNER_PENDING') &&
             Configuration::deleteByName('COINCORNER_PENDINGCONFIRMATION') &&
             Configuration::deleteByName('COINCORNER_COMPLETE') &&

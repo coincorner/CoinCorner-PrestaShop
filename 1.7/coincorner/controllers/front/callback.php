@@ -37,7 +37,7 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
         $response = json_decode(Tools::file_get_contents('php://input'));
         $order_id = $response->OrderId;
         $API_Key_Request = $response->APIKey;
-        $order = new Order($order_id);
+        $order = Order::getByCartId($order_id);
         $APIKey = Configuration::get('COINCORNER_API_KEY');
         $APISecret = Configuration::get('COINCORNER_API_SECRET');
         $UserId = Configuration::get('COINCORNER_USER_ID');
@@ -109,10 +109,8 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
                 if ($cc_order_status !== false) {
                       $history = new OrderHistory();
                       $history->id_order = $order->id;
-                      $history->changeIdOrderState((int)Configuration::get($cc_order_status), $order->id);
-                      $history->addWithemail(true, array(
-                      'order_name' => Tools::getValue('order_id'),
-                      ));
+                      $history->changeIdOrderState(Configuration::get($cc_order_status), $order);
+                      $history->addWithemail();
     
                       $this->context->smarty->assign(array(
                       'text' => 'OK'

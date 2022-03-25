@@ -43,7 +43,7 @@ class Coincorner extends PaymentModule
         $this->controllers = 'callback, cancel, payment, redirect';
         $this->is_eu_compatible = 1;
         $this->ps_versions_compliancy = [
-            'min' => '1.6',
+            'min' => '1.7',
             'max' => _PS_VERSION_
         ];
         $this->bootstrap = true;
@@ -54,10 +54,6 @@ class Coincorner extends PaymentModule
         $this->description = $this->l('Accept Bitcoin through your business with CoinCorner.');
 
         $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
-
-        if (!Configuration::get('MYMODULE_NAME')) {
-            $this->warning = $this->l('No name provided');
-        }
     }
 
     public function install()
@@ -306,7 +302,7 @@ class Coincorner extends PaymentModule
             return;
         }
 
-        $newOption = new PrestaShop\PrestaShop\Core\Payment\PaymentOption();
+        $newOption = new PaymentOption();
         $newOption->setCallToActionText('Bitcoin via CoinCorner')
             ->setAction($this->context->link->getModuleLink($this->name, 'redirect', array(), true))
             ->setAdditionalInformation(
@@ -326,9 +322,7 @@ class Coincorner extends PaymentModule
         if (!$this->active) {
             return;
         }
-        if (!$this->checkCurrency($params['cart'])) {
-            return;
-        }
+
         $this->smarty->assign(array(
         'this_path'     => $this->_path,
         'this_path_bw'  => $this->_path,
@@ -344,10 +338,6 @@ class Coincorner extends PaymentModule
         }
 
         if (!$this->active) {
-            return;
-        }
-
-        if (!$this->checkCurrency($params['cart'])) {
             return;
         }
 

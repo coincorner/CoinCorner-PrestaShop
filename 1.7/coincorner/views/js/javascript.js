@@ -1,5 +1,4 @@
-<?php
-/**
+/*
 * NOTICE OF LICENSE
 *
 * The MIT License (MIT)
@@ -25,35 +24,26 @@
 *
 *  @author    CoinCorner <support@CoinCorner.com>
 *  @copyright 2019 CoinCorner
-*  @license    The MIT License (MIT)
+*  @license   The MIT License (MIT)
 */
 
-class CoincornerPaymentModuleFrontController extends ModuleFrontController
-{
-    public $ssl = true;
-    public $display_column_left = false;
+function changeTab(evt, tabName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
 
-    public function initContent()
-    {
-        parent::initContent();
-
-        $cart = $this->context->cart;
-
-        if (!$this->module->checkCurrency($cart)) {
-            Tools::redirect('index.php?controller=order');
-        }
-
-        $this->context->smarty->assign(array(
-            'nbProducts'    => $cart->nbProducts(),
-            'cust_currency' => $cart->id_currency,
-            'currencies'    => $this->module->getCurrency((int)$cart->id_currency),
-            'total'         => $cart->getOrderTotal(true, Cart::BOTH),
-            'this_path'     => $this->module->getPathUri(),
-            'this_path_bw'  => $this->module->getPathUri(),
-            'this_path_ssl' => Tools::getShopDomainSsl(true, true)
-                . __PS_BASE_URI__ . 'modules/' . $this->module->name . '/'
-        ));
-
-        $this->setTemplate('payment_execution.tpl');
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
     }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
 }

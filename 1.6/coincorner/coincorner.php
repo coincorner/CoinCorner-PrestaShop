@@ -38,7 +38,7 @@ class Coincorner extends PaymentModule
     {
         $this->name = 'coincorner';
         $this->tab = 'payments_gateways';
-        $this->version = '1.3';
+        $this->version = '1.4';
         $this->author = 'CoinCorner';
         $this->controllers = 'callback, cancel, payment, redirect';
         $this->is_eu_compatible = 1;
@@ -87,18 +87,6 @@ class Coincorner extends PaymentModule
         $order_complete->unremovable = false;
         $order_complete->add();
 
-        $order_cancelled = new OrderState();
-        $order_cancelled->name = array_fill(0, 10, 'Cancelled');
-        $order_cancelled->color = '#8f0621';
-        $order_cancelled->unremovable = false;
-        $order_cancelled->add();
-
-        $order_expired = new OrderState();
-        $order_expired->name = array_fill(0, 10, 'Expired');
-        $order_expired->color = '#8f0621';
-        $order_expired->unremovable = false;
-        $order_expired->add();
-
         $order_pendingrefund = new OrderState();
         $order_pendingrefund->name = array_fill(0, 10, 'Pending Refund');
         $order_pendingrefund->color = '#8f0621';
@@ -115,8 +103,6 @@ class Coincorner extends PaymentModule
         Configuration::updateValue('COINCORNER_PENDING', $order_pending->id);
         Configuration::updateValue('COINCORNER_PENDINGCONFIRMATION', $order_pendingconfirmation->id);
         Configuration::updateValue('COINCORNER_COMPLETE', $order_complete->id);
-        Configuration::updateValue('COINCORNER_CANCELLED', $order_cancelled->id);
-        Configuration::updateValue('COINCORNER_EXPIRED', $order_expired->id);
         Configuration::updateValue('COINCORNER_PENDINGREFUND', $order_pendingrefund->id);
         Configuration::updateValue('COINCORNER_REFUNDED', $order_Refunded->id);
         Configuration::updateValue('COINCORNER_INVOICE_CURRENCY_DEFAULT', 'GBP');

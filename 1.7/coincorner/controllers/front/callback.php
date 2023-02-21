@@ -88,13 +88,13 @@ class CoincornerCallbackModuleFrontController extends ModuleFrontController
                         $cc_order_status = 'COINCORNER_COMPLETE';
                         break;
                     case -1:
-                        $cc_order_status = 'COINCORNER_CANCELLED';
+                        $cc_order_status = 'PS_OS_CANCELED';
                         break;
                     case -2:
-                        $cc_order_status = 'COINCORNER_EXPIRED';
+                        $cc_order_status = 'PS_OS_CANCELED';
                         break;
                     case -3:
-                        $cc_order_status = 'COINCORNER_EXPIRED';
+                        $cc_order_status = 'PS_OS_CANCELED';
                         break;
                     case -4:
                         $cc_order_status = 'COINCORNER_PENDINGREFUND';

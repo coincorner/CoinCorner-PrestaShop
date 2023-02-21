@@ -2,7 +2,7 @@
 <module>
     <name>coincorner</name>
     <displayName><![CDATA[Bitcoin via CoinCorner]]></displayName>
-    <version><![CDATA[1.2]]></version>
+    <version><![CDATA[1.4]]></version>
     <description><![CDATA[Accept Bitcoin through your business with CoinCorner.]]></description>
     <author><![CDATA[CoinCorner]]></author>
     <tab><![CDATA[payments_gateways]]></tab>
